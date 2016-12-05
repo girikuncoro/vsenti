@@ -1,0 +1,4 @@
+TwitterSearch==0.78.4
+tablib==0.9.11
+clint==0.3.4
+configparser==3.3.0r2
