@@ -83,6 +83,6 @@ CREATE TABLE `article_sentiment` (
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(`id`)
+  PRIMARY KEY(`id`),
   UNIQUE (`article_id`, `sentiment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
