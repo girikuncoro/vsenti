@@ -1,5 +1,5 @@
 # vSenti
-Real time tweets sentiment visualizer for VMware brand
+Time series sentiment visualizer for VMware products
 
 ## Goals
 * ~~Inspired by [usa live tweets](https://usa2016livetweets.herokuapp.com/), offer live sentiment analysis of VMware related tweets~~
@@ -10,4 +10,3 @@ Real time tweets sentiment visualizer for VMware brand
 Below is the workflow and platform architecture of vSenti:
 
 ![vSenti Architecture 0.2](./vsenti-architecture-v0.2.png)
-
