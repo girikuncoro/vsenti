@@ -31,7 +31,7 @@ search = TwitterSearch(consumer_key=auth["API_KEY"],
 
 tso = TwitterSearchOrder() # create a TwitterSearchOrder object
 tso.setKeywords(SEARCH_SPEC.all) # let's define all words we would like to have a look for
-#tso.setLanguage('en')
+tso.setLanguage('en')
 tso.setCount(RESULT_COUNT)
 tso.setIncludeEntities(False)
 

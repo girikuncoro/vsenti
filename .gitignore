@@ -2,3 +2,4 @@
 .idea/
 venv/
 *.ini
+*.csv
