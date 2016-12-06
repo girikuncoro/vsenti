@@ -63,3 +63,26 @@ CREATE TABLE `article` (
     ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Storing article sentiment
+DROP TABLE IF EXISTS `article_sentiment`;
+CREATE TABLE `article_sentiment` (
+  `id` int (10) unsigned NOT NULL UNIQUE auto_increment,
+  `article_id` int(10) unsigned NOT NULL,
+  CONSTRAINT `fk_article_sentiment_article_id`
+    FOREIGN KEY (`article_id`)
+    REFERENCES article(`id`)
+    ON DELETE CASCADE,
+  `sentiment_id` int(10) unsigned NOT NULL,
+  CONSTRAINT `fk_article_sentiment_sentiment_id`
+    FOREIGN KEY (`sentiment_id`)
+    REFERENCES sentiment(`id`)
+    ON DELETE CASCADE,
+  `confident_score_raw` double NOT NULL,
+  `confident_score_scaled` double NOT NULL,
+  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`)
+  UNIQUE (`article_id`, `sentiment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
