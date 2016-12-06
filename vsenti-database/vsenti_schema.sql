@@ -29,7 +29,7 @@ CREATE TABLE `product` (
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Storing sentiment categories
+-- Storing sentiment types
 DROP TABLE IF EXISTS `sentiment`;
 CREATE TABLE `sentiment` (
   `id` int(10) unsigned NOT NULL UNIQUE auto_increment,
@@ -39,6 +39,25 @@ CREATE TABLE `sentiment` (
     REFERENCES product(`id`)
     ON DELETE CASCADE,
   `name` varchar(255) collate utf8_unicode_ci NOT NULL UNIQUE,
+  `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Storing product articles/comments/posts
+DROP TABLE IF EXISTS `article`;
+CREATE TABLE `article` (
+  `id` int(10) unsigned NOT NULL UNIQUE auto_increment,
+  `media_id` int(10) unsigned NOT NULL,
+  CONSTRAINT `fk_article_media_id`
+    FOREIGN KEY (`media_id`)
+    REFERENCES media(`id`)
+    ON DELETE CASCADE,
+  `content` text collate utf8_unicode_ci NOT NULL,
+  `url` varchar(255) collate utf8_unicode_ci NOT NULL UNIQUE,
+  `is_analyzed` bool DEFAULT false,
+  `published_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP,
