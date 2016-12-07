@@ -1,0 +1,3 @@
+[submodule "vsenti-api"]
+	path = vsenti-api
+	url = git@github.com:srm912/vsentiApi.git
