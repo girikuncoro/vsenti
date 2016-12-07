@@ -61,7 +61,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'vsenti_scrapper.pipelines.NewsValidation': 100,
+    'vsenti_scrapper.pipelines.ArticleValidation': 100,
     'vsenti_scrapper.pipelines.SaveToMySQL': 200,
 }
 
