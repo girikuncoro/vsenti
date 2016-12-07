@@ -13,7 +13,7 @@ VSENTI_DB_PORT = int(os.getenv('VSENTI_DB_PORT', 3306))
 VSENTI_DB_USER = os.getenv('VSENTI_DB_USER', 'vsenti')
 VSENTI_DB_PASS = os.getenv('VSENTI_DB_PASS', '123456')
 VSENTI_DB_NAME = os.getenv('VSENTI_DB_NAME', 'vsenti_database')
-VSENTI_SLACK_TOKEN = os.getenv('ROJAK_SLACK_TOKEN', '')
+VSENTI_SLACK_TOKEN = os.getenv('VSENTI_SLACK_TOKEN', '')
 
 
 sql_get_media = '''
@@ -45,9 +45,9 @@ class BaseSpider(scrapy.Spider):
             self.logger.error('Unable to fetch media data: %s', err)
             raise NotConfigured('Unable to fetch media data: %s' % err)
 
-        if ROJAK_SLACK_TOKEN != '':
+        if VSENTI_SLACK_TOKEN != '':
             self.is_slack = True
-            self.slack = Slacker(ROJAK_SLACK_TOKEN)
+            self.slack = Slacker(VSENTI_SLACK_TOKEN)
         else:
             self.is_slack = False
             self.logger.info('Post error to #vsenti-scrapper-errors is disabled')
