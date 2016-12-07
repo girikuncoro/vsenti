@@ -1,5 +1,4 @@
 import MySQLdb as mysql
-from faker import Factory
 import os
 import json
 import sys
@@ -80,7 +79,7 @@ if __name__ == '__main__':
             db=VSENTI_DB_NAME)
 
     # Create new db cursor
-    insert_data(db, 'vmware_product_data.json')
+    insert_data(db, 'data_vmware_product.json')
 
     # Close the DB connection
     db.close()
