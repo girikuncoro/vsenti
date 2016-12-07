@@ -24,6 +24,11 @@ mysql -h 127.0.0.1 -P 3306 -u vsenti -p
 ```
 and input password with `123456`
 
+Generate dummy data
+```
+sh init_scripts/populate_vsenti_db_with_dummy_data.sh
+```
+
 ## Architecture
 Below is the workflow and platform architecture of vSenti:
 
