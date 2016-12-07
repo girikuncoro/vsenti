@@ -1,0 +1,34 @@
+{
+    "products": [
+      {
+        "name": "vSphere",
+        "website_url": "http://www.vmware.com/products/vsphere.html",
+        "logo_url": "http://www.servermonkey.com/media/catalog/product/cache/1/image/940x587/9df78eab33525d08d6e5fb8d27136e95/v/m/vmware_vsphere_logo_1.png",
+        "description": "The vSphere platform - the best foundation for your applications, your cloud and your business.",
+        "sentiments": [
+          "pos_vsphere",
+          "neg_vsphere"
+        ]
+      },
+      {
+        "name": "NSX",
+        "website_url": "http://www.vmware.com/products/nsx.html",
+        "logo_url": "http://blogs.vmware.com/networkvirtualization/files/2015/08/VMW-NSX-Logo1.jpg",
+        "description": "VMware NSX is the network virtualization platform for the Software-Defined Data Center.",
+        "sentiments": [
+          "pos_nsx",
+          "neg_nsx"
+        ]
+      },
+      {
+        "name": "vSAN",
+        "website_url": "http://www.vmware.com/products/virtual-san.html",
+        "logo_url": "https://www.mirrorsphere.com/wp-content/uploads/2015/09/vmware-logo.png",
+        "description": "VMware vSAN (formerly Virtual SAN), is the industry-leading software powering Hyper-Converged Infrastructure solutions.",
+        "sentiments": [
+          "pos_vsan",
+          "neg_vsan"
+        ]
+      }
+    ]
+}
