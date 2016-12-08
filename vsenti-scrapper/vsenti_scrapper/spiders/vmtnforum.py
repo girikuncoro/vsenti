@@ -66,4 +66,58 @@ class VmtnforumSpider(BaseSpider):
 
     # Collect article item
     def parse_article(self, response):
-        pass
+        self.logger.info('parse_article: {}'.format(response))
+        # post_selectors = response.css('')
+        reply_selectors = response.css('li.reply')
+
+        # TODO: parse the thread starter
+        for i, reply in enumerate(reply_selectors):
+            # parse the discussion comments
+            yield Request(response.url, meta={'reply': reply}, callback=self.parse_comment, dont_filter=True)
+
+    # Collect article item
+    def parse_comment(self, response):
+        reply = response.meta['reply']
+
+        # Init item loader
+        # extract article published_at, content, url
+        # Required: content, published_at
+        loader = ItemLoader(item=Article(), response=response)
+        loader.add_value('url', response.url)
+
+        content_selectors = reply.css('div.jive-rendered-content > p::text')
+        if not content_selectors:
+            # Will be dropped on the item pipeline
+            return loader.load_item()
+        content = content_selectors.extract()
+        content = ' '.join([w.strip() for w in content])
+        content = content.strip()
+        content = content.encode('ascii',errors='ignore')
+        loader.add_value('content', content)
+        self.logger.info('content: {}'.format(content))
+
+        # Example: Dec 7, 2016 12:11 AM
+        info_selectors = response.css('span.j-post-author::text')
+        if not info_selectors:
+            # Will be dropped on the item pipeline
+            return loader.load_item()
+        info = info_selectors.extract()[1]
+
+        # Parse date information
+        # Example: Dec 7, 2016 12:11 AM
+        date_str = info.strip()
+        if not date_str:
+            # Will be dropped on the item pipeline
+            return loader.load_item()
+
+        # Example: Dec 7, 2016 12:11 AM
+        try:
+            published_at = datetime.strptime(date_str, '%b %d, %Y %H:%M %p')
+        except ValueError:
+            # Will be dropped on the item pipeline
+            return loader.load_item()
+
+        loader.add_value('published_at', published_at)
+
+        # Move scraped news to pipeline
+        return loader.load_item()

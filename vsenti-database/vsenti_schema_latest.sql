@@ -55,7 +55,7 @@ CREATE TABLE `article` (
     REFERENCES media(`id`)
     ON DELETE CASCADE,
   `content` text collate utf8_unicode_ci NOT NULL,
-  `url` varchar(255) collate utf8_unicode_ci NOT NULL UNIQUE,
+  `url` varchar(255) collate utf8_unicode_ci NOT NULL,
   `is_analyzed` bool DEFAULT false,
   `published_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `inserted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
