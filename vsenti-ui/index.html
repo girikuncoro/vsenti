@@ -21,7 +21,12 @@
 			    background-size: 100% 100%;
 			    background-repeat: no-repeat;
 			    backface-visibility: 0.5;
-            }        
+            }     
+            .btn-default{
+            	width: 65px;
+            	margin-left: 8px;
+            	margin-right: 8px;
+            }   
         </style>
 	</head>
 	<body class="mainbody">
@@ -42,6 +47,12 @@
                 <input type="submit" id="searchButton"></input>
             </form>
 
+            <div>
+                <button class="btn btn-default" type="submit" id ="VSPHERE" value="VSPHERE">vSphere</button>
+                <button class="btn btn-default" type="submit" id ="VSAN" value="VSAN">vSAN</button>
+                <button class="btn btn-default" type="submit" id ="NSX" value="NSX">NSX</button>
+            </div>
+
 		<!-- Footer -->
 			<footer id="footer">
 				<ul class="icons">
@@ -61,7 +72,24 @@
 
         <script type="text/javascript">
             document.getElementById("searchButton").onclick = function () {
-                location.href = "./result_page.html?productName=" + document.getElementById("text").value;
+            	var inputValue = document.getElementById("text").value.toUpperCase();
+            	if (inputValue == null || inputValue.length == 0) {
+					alert("Please choose a product!");
+				} else if (inputValue != "VSPHERE" && inputValue != "VSAN" && inputValue != "NSX") {
+            		alert("Current analysis is not available for this product! Please choose another one.");
+            	} else {
+            		location.href = "./result_page.html?productName=" + inputValue;
+
+            	}
+            };
+            document.getElementById("VSPHERE").onclick = function () {
+                location.href = "./result_page.html?productName=" + document.getElementById("VSPHERE").value;
+            };
+            document.getElementById("VSAN").onclick = function () {
+                location.href = "./result_page.html?productName=" + document.getElementById("VSAN").value;
+            };
+            document.getElementById("NSX").onclick = function () {
+                location.href = "./result_page.html?productName=" + document.getElementById("NSX").value;
             };
         </script>
 	</body>

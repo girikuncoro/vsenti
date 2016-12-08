@@ -32,6 +32,14 @@
 			background-color: #dee1e5;
 			padding-top: 5px;
 		}
+		.sub-button{
+			height: 28px;
+			width: 65px;
+			margin-left: 4px;
+            margin-right: 4px;
+            font-size: 12px;
+		}
+	
 		</style>
 	</head>
 	<body>
@@ -60,6 +68,12 @@
 	                <input type="submit" id="searchButton" onclick="submitInput()"> </input>
 	            </form>
 
+	            <div>
+	                <button class="btn sub-button" type="submit" id ="VSPHERE" value="VSPHERE">vSphere</button>
+	                <button class="btn sub-button" type="submit" id ="VSAN" value="VSAN">vSAN</button>
+	                <button class="btn sub-button" type="submit" id ="NSX" value="NSX">NSX</button>
+	            </div>
+
 				<!-- Footer -->
 				<footer id="footer" style="color:black;">
 					<ul class="icons">
@@ -84,16 +98,23 @@
 
 		<script>
 			// Ajax
+			var productIds = {"VSPHERE":1, "VSAN":2, "NSX":3};
 			var url = window.location.href;
 			var temp = url.split("?");
 			temp = temp[1].split("=");
-			var productName = temp[1];
+			var productName = temp[1].toUpperCase();
+
 			function submitInput() {
-				productName = document.getElementById("text").value;
+				productName = document.getElementById("text").value.toUpperCase();
+				if (productName == null || productName.length == 0) {
+					alert("Please choose a product!");
+				} else if (productName != "VSPHERE" && productName != "VSAN" && productName != "NSX") {
+					alert("Current analysis is not available for this product! Please choose another one.");
+				}
 			}
 
 			// TODO
-			// var SentimentData = $.get( "TODO.php", {productName: "TODO", currentTime: new Date()});
+			// var SentimentData = $.get( "TODO.php", {productName: "TODO", currentTime: new Date(), productId: productIds[productName]});
 
 			// TEST
 			// var SentimentData = [

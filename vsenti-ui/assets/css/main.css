@@ -978,6 +978,9 @@
 		input[type="submit"]:active,
 		input[type="reset"]:active,
 		input[type="button"]:active,
+		button.btn-default {
+		    background-color: #8ccec1;
+		}
 		button:active,
 		.button:active {
 			background-color: #199e83;
