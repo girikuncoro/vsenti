@@ -7,12 +7,17 @@ from scrapy.exceptions import CloseSpider
 from vsenti_scrapper.items import Article
 from vsenti_scrapper.spiders.base import BaseSpider
 
+# number of thread list to crawl
+MAX_PAGES=10
+
 class VmtnforumSpider(BaseSpider):
     name = "vmtnforum"
     allowed_domains = ["communities.vmware.com"]
     start_urls = (
         'https://communities.vmware.com/community/vmtn/vsphere/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
     )
+    start_page = 0
+    pagination = 30
 
     def parse(self, response):
         self.logger.info('parse: {}'.format(response))
@@ -58,11 +63,11 @@ class VmtnforumSpider(BaseSpider):
             self.logger.info('Media have no update')
             return
 
-        # Collect news on next page
-        # if response.css('div.bu.fr > a'):
-        #     next_page = response.css('div.bu.fr > a[rel="next"]::attr(href)').extract()[0]
-        #     next_page_url = response.urljoin(next_page)
-        #     yield Request(next_page_url, callback=self.parse)
+        # Collect threads on next page
+        if self.start_page < self.pagination * MAX_PAGES:
+            self.start_page += self.pagination
+            next_page_url = self.start_urls[0] + '&start={}'.format(self.start_page)
+            yield Request(next_page_url, callback=self.parse)
 
     # Collect article item
     def parse_article(self, response):
