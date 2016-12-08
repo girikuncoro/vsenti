@@ -33,9 +33,10 @@ sh init_scripts/populate_vsenti_db_with_dummy_data.sh
 The API for vsenti is exposed as a REST API which is hosted on an Express Node app
 This app is a linked as a submodule. To begin development, for the first time do
 ```
-git submodule update --init --recursive
+git submodule init
+git submodule update --recrusive
 ```
-This pulls the external repository as a local copy.
+This pulls the external repository as a local copy. To fetch the updated submodule, you can rerun the `update` command.
 
 ## Architecture
 Below is the workflow and platform architecture of vSenti:
