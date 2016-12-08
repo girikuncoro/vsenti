@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<!--
+	VMware-vSenti
+	@Linda Luo
+-->
+<html>
+	<head>
+		<title>VMware-vSenti</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+
+        <style>
+            .mainbody{
+                margin-left: 10cm;
+                margin-top: 0.1px;
+                background: url("images/bg1.png");
+			    background-size: 100% 100%;
+			    background-repeat: no-repeat;
+			    backface-visibility: 0.5;
+            }        
+        </style>
+	</head>
+	<body class="mainbody">
+
+		<!-- Header -->
+			<header id="header">
+				<h1>vSenti</h1>
+				<p style="color:white;">
+                    vSenti crawls data from VMware Forum <br/>
+                    and analyze sentiments across the conversations. <br/>
+                    More information
+                    <a href="https://communities.vmware.com/welcome">VMware Forum</a>.</p>
+			</header>
+
+		<!-- Signup Form -->
+			<form id="signup-form" method="post" action="TBD" >
+				<input type="text" name="texg" id="text" placeholder="Product Name" />
+                <input type="submit" id="searchButton"></input>
+            </form>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<ul class="icons">
+                    <li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+                    <li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+					<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+				</ul>
+				<ul class="copyright">
+					<li>&copy; VMware Inc.</li><li>Credits: <a href="https://github.com/girikuncoro/vsenti">Giri Kuncoro, Linda Luo, Manali Kumar, Sagar Muchhal</a></li>
+				</ul>
+			</footer>
+
+		<!-- Scripts -->
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+        <script type="text/javascript">
+            document.getElementById("searchButton").onclick = function () {
+                location.href = "./result_page.html?productName=" + document.getElementById("text").value;
+            };
+        </script>
+	</body>
+</html>

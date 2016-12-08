@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<!--
+	VMware-vSenti
+	@Linda Luo
+-->
+<html>
+	<head>
+		<title>VMware-vSenti</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<style>
+		.col-main{
+			height: 500px;
+		}
+		body {
+			background-color: #dee1e5;
+			padding-top: 5px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-9" style="padding-left:720px;">
+				<img src="images/vmware-logo.png" alt="VMware Logo" style="width:130px;height:20px;">
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-3 col-main">
+				<!-- Header -->
+				<header id="header">
+					<h2>vSenti</h2>
+					<br/>
+					<p style="font-size:120%; color:black;">
+	                    vSenti crawls data from VMware Forum and analyze sentiments across the conversations. <br/>
+	                    More information
+	                    <a href="https://communities.vmware.com/welcome">VMware Forum</a>.</p>
+				</header>
+
+				<!-- Signup Form -->
+				<form id="signup-form" method="post" action="#">
+					<input type="text" name="text" id="text" placeholder="Product Name" style="border: solid 2px rgba(255, 255, 255, 0.8);" />
+	                <input type="submit" id="searchButton" onclick="submitInput()"> </input>
+	            </form>
+
+				<!-- Footer -->
+				<footer id="footer" style="color:black;">
+					<ul class="icons">
+	                    <li><a href="https://github.com/girikuncoro/vsenti" class="icon fa-github"><span class="label">GitHub</span></a></li>
+	                    <li><a href="https://github.com/girikuncoro/vsenti" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						<li><a href="https://github.com/girikuncoro/vsenti" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="https://github.com/girikuncoro/vsenti" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; VMware Inc.</li><li>Credits: <a href="https://github.com/girikuncoro/vsenti">Giri Kuncoro, Linda Luo, Manali Kumar, Sagar Muchhal</a></li>
+					</ul>
+				</footer>
+
+				<!-- Scripts -->
+				<script src="assets/js/main.js"></script>
+			</div>
+
+			<div class="col-md-9" id="chart_div" style="width: 900px; height: 500px; float:right"></div>
+		</div>
+
+<!-- <div id="chart_div"> </div> -->
+
+		<script>
+			// Ajax
+			var url = window.location.href;
+			var temp = url.split("?");
+			temp = temp[1].split("=");
+			var productName = temp[1];
+			function submitInput() {
+				productName = document.getElementById("text").value;
+			}
+
+			// TODO
+			// var SentimentData = $.get( "TODO.php", {productName: "TODO", currentTime: new Date()});
+
+			// TEST
+			// var SentimentData = [
+			// 	{
+			// 		productName: "NSX", 
+			// 		date: new Date() - 7, 
+			// 		time_axis_data: {
+			// 			week: "1",
+			// 			value: 4,
+			// 			end_time_of_week: "30/11"
+			// 		}
+			// 	}, 
+			// 	{
+			// 		productName: "NSX", 
+			// 		date: new Date(), 
+			// 		time_axis_data: {
+			// 			week: "2",
+			// 			value: 6,
+			// 			end_time_of_week: "06/12"
+			// 		}
+			// 	}
+			// ];	
+
+			// Gerenate chart data
+			// var length = SentimentData.length;
+			// var recent_SentimentData = [['Week', SentimentData[0].productName]];
+			// if (length < 12) {
+			// 	alert("Hey, your Date system is crashed!");
+			// }
+			// for (i = length - 12; i <= length - 1; i++) {
+			//     recent_SentimentData.push([SentimentData[i].time_axis_data.week + "(" + SentimentData[i].time_axis_data.end_time_of_week + ")",  
+			//     	SentimentData[i].time_axis_data.value]);
+			// }
+
+			// Generate line chart
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+				// var data = google.visualization.arrayToDataTable(recent_SentimentData);
+				var data = google.visualization.arrayToDataTable([
+		          ['Year', 'NSX', 'Expenses'],
+		          ['2004',  1000,      400],
+		          ['2005',  1170,      460],
+		          ['2006',  660,       1120],
+		          ['2007',  1030,      540]
+		        ]);
+
+				var options = {
+					title: 'Sentiment Score',
+					curveType: 'function',
+					legend: { position: 'bottom' }
+				};
+
+				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+				chart.draw(data, options);
+			}
+		</script>
+	</body>
+</html>
