@@ -15,6 +15,8 @@ class VmtnforumSpider(BaseSpider):
     allowed_domains = ["communities.vmware.com"]
     start_urls = (
         'https://communities.vmware.com/community/vmtn/vsphere/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
+        'https://communities.vmware.com/community/vmtn/nsx/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
+        'https://communities.vmware.com/community/vmtn/vsan/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
     )
     start_page = 0
     pagination = 30
