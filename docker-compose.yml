@@ -5,3 +5,9 @@ services:
     container_name: vsenti_database
     ports:
       - "3306:3306"
+
+  vsenti-api:
+    build: ./vsenti-api
+    container_name: vsenti-api
+    ports:
+      - "3000:3000"
