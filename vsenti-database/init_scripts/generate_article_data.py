@@ -3,12 +3,21 @@ from faker import Factory
 import random
 import os
 import sys
+import datetime as py_datetime
 
 VSENTI_DB_HOST = os.getenv('VSENTI_DB_HOST', '127.0.0.1')
 VSENTI_DB_PORT = int(os.getenv('VSENTI_DB_PORT', 3306))
 VSENTI_DB_USER = os.getenv('VSENTI_DB_USER', 'vsenti')
 VSENTI_DB_PASS = os.getenv('VSENTI_DB_PASS', '123456')
 VSENTI_DB_NAME = os.getenv('VSENTI_DB_NAME', 'vsenti_database')
+
+def datetime(start, end=None, distribution = lambda max: random.randrange(max)):
+    """ Returns random datetime between `start` and `end` """
+    end = end or py_datetime.datetime.now()
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = distribution(int_delta)
+    return (start + py_datetime.timedelta(seconds=random_second))
 
 # Open database connection
 db = mysql.connect(host=VSENTI_DB_HOST, port=VSENTI_DB_PORT,
@@ -67,8 +76,8 @@ except mysql.Error as err:
 # Generate random data for the article
 MAX_ARTICLES=100
 sql_insert_article = '''
-INSERT INTO `article`(`media_id`, `content`, `url`)
-VALUES ('{}', '{}', '{}');
+INSERT INTO `article`(`media_id`, `content`, `url`, `published_at`)
+VALUES ('{}', '{}', '{}', '{}');
 '''
 sql_insert_sentiment = '''
 INSERT INTO `article_sentiment`(`article_id`, `sentiment_id`,
@@ -89,6 +98,7 @@ for media in medias:
         content += ' ' + fake.text()
         title_url = title.lower().replace(' ', '-')
         url = '{}/{}'.format(media_url, title_url)
+        publish_date = datetime(py_datetime.datetime.today() - py_datetime.timedelta(days=90))
 
         n_label = random.randint(1, 3)
         sentiments = set([])
@@ -99,7 +109,7 @@ for media in medias:
         # insert to the database
         try:
             # Parse the SQL command
-            insert_sql = sql_insert_article.format(media_id, content, url)
+            insert_sql = sql_insert_article.format(media_id, content, url, publish_date)
             cursor.execute(insert_sql)
             article_id = cursor.lastrowid
             for sentiment_id in sentiments:
