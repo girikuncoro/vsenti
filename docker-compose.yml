@@ -11,3 +11,5 @@ services:
     container_name: vsenti-api
     ports:
       - "3000:3000"
+    links:
+      - vsenti_database
