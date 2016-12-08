@@ -25,6 +25,11 @@ matplotlib.use('Agg')
 from matplotlib import pyplot
 import numpy as np
 
+# import nltk
+# nltk.data.path.append('./nltk_data')
+# from nltk.corpus import stopwords
+# stop = set(stopwords.words('english'))
+
 # Compile regex to remove non-alphanum char
 nonalpha = re.compile('[^a-z\-]+')
 
@@ -35,19 +40,6 @@ def normalize_word(w):
     word = word.replace('-', ' ')
     word = word.strip()
     return word
-
-# Function to clean the raw string
-# TODO: remove stopwords
-def clean_string(s):
-    result_str = []
-
-    # For each word we clear out the extra format
-    for w in s.split(' '):
-        word = normalize_word(w)
-        if word != '' and word != '-':
-            result_str.append(word)
-
-    return ' '.join(result_str)
 
 # Given list of article texts, this function will return a sparse matrix
 # feature X
@@ -142,7 +134,7 @@ class VsentiSVM():
                 sys.exit()
 
             # Clean the string
-            clean_content = clean_string(content).encode('utf-8',
+            clean_content = self.clean_string(content).encode('utf-8',
                 'ignore')
             clean_text = clean_content
             if not clean_text:
@@ -163,6 +155,19 @@ class VsentiSVM():
                     clean_text)
                 container_class[classifier_name].append(label)
         csv_file.close()
+
+    # Function to clean the raw string
+    # TODO: remove stopwords
+    def clean_string(self, s):
+        result_str = []
+
+        # For each word we clear out the extra format
+        for w in s.split(' '):
+            word = normalize_word(w)
+            if word != '' and word != '-':
+                result_str.append(word)
+
+        return ' '.join(result_str)
 
     # input_file is a path to csv with the following headers:
     # 'title', 'raw_content' and 'labels'.
@@ -190,7 +195,9 @@ class VsentiSVM():
             y = article_labels
 
             # Train the classifier
-            classifier = OneVsRestClassifier(LinearSVC(random_state=0))
+            # classifier = OneVsRestClassifier(LinearSVC(random_state=0))
+            # classifier = svm.SVC()
+            classifier = LinearSVC(random_state=0)
             classifier.fit(X, y)
 
             # Save the classifier
@@ -202,6 +209,9 @@ class VsentiSVM():
         # Save the model as binary file
         pickle.dump(self.classifiers, open(output_file, 'w'),
             protocol=pickle.HIGHEST_PROTOCOL)
+
+    def load_model(self, model):
+        self.classifiers = pickle.load(open(model))
 
     def eval(self, model, test_data):
         # Load the model
@@ -251,11 +261,19 @@ class VsentiSVM():
             X = feature_extractor.transform(article)
             res = classifier.decision_function(X)
             result = result + zip(classifier.classes_, res[0])
-        return result
+
+        pred = {'label': 'oot', 'confident_score': float('-inf')}
+        for label, score in result:
+            if score > pred['confident_score']:
+                pred['label'] = label
+                pred['confident_score'] = score
+
+        print "Result: {}".format(result)
+        return pred
 
 if __name__ == '__main__':
     vsenti = VsentiSVM()
-    vsenti.train('training_data.csv', 'vsenti_svm_model.bin')
+    vsenti.train('data_vmtnforum_labelled_300_merged.csv', 'vsenti_svm_model.bin')
     vsenti.eval('vsenti_svm_model.bin', 'test_data.csv')
 
     print '== Test'
@@ -266,11 +284,12 @@ if __name__ == '__main__':
     # ''']
     # test_comment_label = 'neg_vsphere'
     test_comment_texts = ['''
-        Hi,  You can try deleting these objects by using
-         /usr/lib/vmware/osfs/bin/objtool from ESXi shell.  Sample command :
-         Check the obj_info from RVC before you delete these 6 objects to be sure.
+        Unfortunately you will experience the same level of service if it is a
+        SEV1 PRODUCTION DOWN case as well.  They will run you around in circles
+        as you stay up with them around all their support offices around the World.
+        Next thing you know, 4 weeks have passed, your hair is white and your issue is worse.
     ''']
-    test_comment_label = 'pos_vsan'
+    test_comment_label = 'pos_vsphere'
     prediction = vsenti.predict(test_comment_texts)
     print 'Text comment:'
     print test_comment_texts
