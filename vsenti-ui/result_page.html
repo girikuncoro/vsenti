@@ -124,39 +124,6 @@
 			// TODO
 			// var SentimentData = $.get( "TODO.php", {productName: "TODO", currentTime: new Date(), productId: productIds[productName]});
 
-			// TEST
-			// var SentimentData = [
-			// 	{
-			// 		productName: "NSX", 
-			// 		date: new Date() - 7, 
-			// 		time_axis_data: {
-			// 			week: "1",
-			// 			value: 4,
-			// 			end_time_of_week: "30/11"
-			// 		}
-			// 	}, 
-			// 	{
-			// 		productName: "NSX", 
-			// 		date: new Date(), 
-			// 		time_axis_data: {
-			// 			week: "2",
-			// 			value: 6,
-			// 			end_time_of_week: "06/12"
-			// 		}
-			// 	}
-			// ];	
-
-			// Gerenate chart data
-			// var length = SentimentData.length;
-			// var recent_SentimentData = [['Week', SentimentData[0].productName]];
-			// if (length < 12) {
-			// 	alert("Hey, your Date system is crashed!");
-			// }
-			// for (i = length - 12; i <= length - 1; i++) {
-			//     recent_SentimentData.push([SentimentData[i].time_axis_data.week + "(" + SentimentData[i].time_axis_data.end_time_of_week + ")",  
-			//     	SentimentData[i].time_axis_data.value]);
-			// }
-
 			// Generate line chart
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
@@ -164,17 +131,25 @@
 			function drawChart() {
 				// var data = google.visualization.arrayToDataTable(recent_SentimentData);
 				var data = google.visualization.arrayToDataTable([
-		          ['Year', 'NSX', 'Expenses'],
-		          ['2004',  1000,      400],
-		          ['2005',  1170,      460],
-		          ['2006',  660,       1120],
-		          ['2007',  1030,      540]
+		          ['Year','NSX'],
+		          ['2004', 10],
+		          ['2005', 30],
+		          ['2006', -5],
+		          ['2007', 4]
 		        ]);
 
+				var tick = 10;
 				var options = {
 					title: 'Sentiment Score',
 					curveType: 'function',
-					legend: { position: 'bottom' }
+					legend: { position: 'bottom' },
+					vAxis: {
+					    viewWindow: {
+					        min: -10,
+					        max: 50
+					    },
+					    ticks: [0, tick] // display labels every 25
+					}
 				};
 
 				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
