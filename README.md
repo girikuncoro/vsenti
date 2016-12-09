@@ -38,6 +38,29 @@ git submodule update --recrusive
 ```
 This pulls the external repository as a local copy. To fetch the updated submodule, you can rerun the `update` command.
 
+## Deployment
+I would suggest run `virtualenv` and `pip install` all dependencies inside `vsenti-analyser` and `vsenti-scrapper`. 
+
+**DB init**  
+After running a fresh `vsenti-database` through docker compose:
+```
+cd vsenti-database
+sh populate_vsenti_db.sh
+```
+
+**Collect data**  
+```
+cd vsenti-scrapper
+scrapy crawl vmtnforum
+```
+
+**Analyze data**  
+```
+cd vsenti-analyzer
+python vsenti.py run --model=vsenti_svm_model.bin --max-articles=3000
+```
+Ideally the analyzer and crawler will run as cron/scheduler job, so the `max-articles` parameter can be as small as 20.
+
 ## Architecture
 Below is the workflow and platform architecture of vSenti:
 
