@@ -8,7 +8,7 @@ from vsenti_scrapper.items import Article
 from vsenti_scrapper.spiders.base import BaseSpider
 
 # number of thread list to crawl
-MAX_PAGES=10
+# MAX_PAGES=200
 
 class VmtnforumSpider(BaseSpider):
     name = "vmtnforum"
@@ -18,8 +18,8 @@ class VmtnforumSpider(BaseSpider):
         'https://communities.vmware.com/community/vmtn/nsx/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
         'https://communities.vmware.com/community/vmtn/vsan/content?filterID=contentstatus[published]~objecttype~objecttype[thread]',
     )
-    start_page = 0
-    pagination = 30
+    # start_page = 0
+    # pagination = 30
 
     def parse(self, response):
         self.logger.info('parse: {}'.format(response))
@@ -28,7 +28,8 @@ class VmtnforumSpider(BaseSpider):
         # Get list of threads from the current page
         articles = response.css('tr.js-browse-item')
         if not articles:
-            raise CloseSpider('article not found')
+            articles = []
+            # raise CloseSpider('article not found')
         for article in articles:
             # Close the spider if we don't find the list of urls
             url_selectors = article.css('td.j-td-title > div > a::attr(href)')
@@ -66,9 +67,14 @@ class VmtnforumSpider(BaseSpider):
             return
 
         # Collect threads on next page
-        if self.start_page < self.pagination * MAX_PAGES:
-            self.start_page += self.pagination
-            next_page_url = self.start_urls[0] + '&start={}'.format(self.start_page)
+        # if self.total_url != 0 and self.start_page < self.pagination * MAX_PAGES:
+        #     self.start_page += self.pagination
+        #     next_page_url = self.start_urls[0] + '&start={}'.format(self.start_page)
+        #     yield Request(next_page_url, callback=self.parse)
+        if response.css('a.j-pagination-next::attr(href)'):
+            url = response.css('a.j-pagination-next::attr(href)').extract()[0]
+            next_page_url = 'https://communities.vmware.com' + url
+            self.logger.info('next_page: {}'.format(next_page_url))
             yield Request(next_page_url, callback=self.parse)
 
     # Collect article item
